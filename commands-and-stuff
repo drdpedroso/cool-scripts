@@ -1,0 +1,2 @@
+npm permission errors:
+ `sudo chown -R $(whoami) ~/.npm`
