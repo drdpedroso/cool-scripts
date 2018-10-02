@@ -4,6 +4,7 @@ casks=(
   visual-studio-code
   google-chrome
   slack
+  webstorm
   pycharm
   datagrip
   spotify
@@ -11,6 +12,7 @@ casks=(
   stremio
   docker
   iterm2
+  java
   github-desktop
 )
 
@@ -29,6 +31,19 @@ git_configs=(
   "user.email drdpedroso@gmail.com"
 )
 
+function after_install {
+    # Install Node Version Manager (nvm)
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+    # Install DynamoDB
+    download_dynamo
+}
+
+function download_dynamo {
+    wget https://s3.eu-central-1.amazonaws.com/dynamodb-local-frankfurt/dynamodb_local_latest.tar.gz
+    cp dynamodb_local_latest.tar.gz ~/.dynamodb
+    cd ~/.dynamodb
+    tar xvzf dynamodb_local_latest.tar.gz
+}
 
 function prompt {
   echo $1
@@ -66,13 +81,9 @@ prompt "Install software"
 brew tap caskroom/versions
 brew cask info ${casks[@]}
 install 'brew cask install' ${casks[@]}
+after_install
 mv .bashrc ~/.bashrc
-mv .hyper.js ~/.hyper.js
-mv .hyper_plugins ~/.hyper_plugins
-mv .zshrc ~/.zshrc
-mv .zxventures ~/.zxventures
 source ~/.bashrc
-source ~/.zshrc
 
 
 prompt "Install mac CLI [NOTE: Say NO to bash-completions since we have fzf]!"
