@@ -46,6 +46,13 @@ function download_dynamo {
     echo "Dynamo is done! You can run with dynamo-run alias"
 }
 
+function install_aws_cli {
+  cd ~/.aws_temp
+  curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+  unzip awscli-bundle.zip
+  sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+}
+
 function prompt {
   echo $1
 }
@@ -72,6 +79,8 @@ function after_install {
     download_dynamo
     # Give Vim some protein
     mutate_vim
+    # Install AWS CLI
+    install_aws_cli
 }
 
 prompt "Installing HomeBrew"
