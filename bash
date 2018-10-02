@@ -12,6 +12,7 @@
  alias docker-sa="docker kill $(docker ps -q)"
  alias docker-ka="docker rm $(docker ps -a -q)"
  alias docker-rm="docker rmi $(docker images -q)"
+ alias dynamo-run="java -Djava.library.path=./DynamoDBLocal_lib -jar ~/.dynamo/DynamoDBLocal.jar -sharedDb"
 
  export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 
