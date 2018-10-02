@@ -31,11 +31,10 @@ git_configs=(
   "user.email drdpedroso@gmail.com"
 )
 
-function after_install {
-    # Install Node Version Manager (nvm)
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-    # Install DynamoDB
-    download_dynamo
+function mutate_vim {
+  git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
+  sh ~/.vim_runtime/install_awesome_vimrc.sh
+  echo "Vim is good to go :)"
 }
 
 function download_dynamo {
@@ -43,6 +42,7 @@ function download_dynamo {
     cp dynamodb_local_latest.tar.gz ~/.dynamodb
     cd ~/.dynamodb
     tar xvzf dynamodb_local_latest.tar.gz
+    echo "Dynamo is done! You can run with dynamo-run alias"
 }
 
 function prompt {
@@ -62,6 +62,15 @@ function install {
       echo "Failed to execute: $exec"
     fi
   done
+}
+
+function after_install {
+    # Install Node Version Manager (nvm)
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+    # Install DynamoDB
+    download_dynamo
+    # Give Vim some protein
+    mutate_vim
 }
 
 prompt "Installing HomeBrew"
