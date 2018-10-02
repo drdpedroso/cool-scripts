@@ -14,6 +14,7 @@ casks=(
   iterm2
   java
   github-desktop
+  font-hack
 )
 
 brews=(
