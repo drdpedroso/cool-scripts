@@ -1,0 +1,65 @@
+type User = string;
+
+interface IStatus {
+  byWhom: User;
+  isActive: Boolean;
+}
+
+@Injectable()
+class LekeService {
+
+  subject: Subject<IStatus>;
+
+  constructor() {
+    this.subject = new Subject();
+  }
+
+  get isActiveObservable() {
+    return this.subject.asObservable();
+  }
+
+  setActive(byWhom) {
+    this.subject.next({ byWhom,  isActive: true } );
+  }
+
+  setInactive(byWhom) {
+    this.subject.next({ byWhom,  isActive: false} );
+  }
+  
+  ngOnDestroy() {
+    this.subject.unsubscribe();
+  }
+}
+
+
+class HomePage implements OnDestroy  {
+  subscription: Subscription;
+  constructor(
+    private _status: LekeService
+  ) {
+    this._listenToChanges();
+  }
+  
+  private _listenToChanges() {
+    this.subscription = this._status.isActiveObservable.subscribe(data => {
+      
+    })
+  }
+  
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+}
+
+
+class DetailPage {
+  constructor(
+    private _status: LekeService
+  ) {
+  }
+
+
+  public toggleActive() {
+    this._status.setActive('EduLeke');
+  }
+}
